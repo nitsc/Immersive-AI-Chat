@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human-like</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        #output {
+            display: none;
+            text-align: center;
+        }
+        #history {
+            display: none;
+            text-align: center;
+            white-space: pre-wrap;
+        }
+        input {
+            color: white;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid black;
+            outline: none;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="output"></div>
+    <div id="history"></div>
+    <input type="text" id="input" autofocus>
+
+    <script>
+        const input = document.getElementById('input');
+        const output = document.getElementById('output');
+        const historyDiv = document.getElementById('history');
+
+        input.addEventListener('keydown', async function(event) {
+            if (event.key === 'Enter') {
+                const userMessage = input.value;
+                input.value = '';
+                output.style.display = 'none';
+                historyDiv.style.display = 'none';
+
+                if (userMessage === '') return;
+
+                // 检查是否输入 /history
+                if (userMessage === '/history') {
+                    historyDiv.innerText = '';
+                    const response = await fetch('/chat_history');
+                    const data = await response.json();
+                    historyDiv.innerText = data.history.map(entry => `User: ${entry.user}\nBot: ${entry.bot}`).join('\n');
+                    historyDiv.style.display = 'block';
+                    return;
+                }
+
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: userMessage }),
+                });
+                const data = await response.json();
+                output.innerText = data.response;
+                output.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
