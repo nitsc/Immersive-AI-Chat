@@ -22,6 +22,9 @@ pip install ollama flask
 You can download the ollama setup.exe from:
 [ollama](https://ollama.com/)
 
+You can download the python from:
+[python](https://www.python.org/downloads/)
+
 ## Run
 Clone my repositories, run:
 
