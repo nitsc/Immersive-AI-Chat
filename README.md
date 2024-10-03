@@ -18,3 +18,15 @@ You can install the necessary Python packages by running:
 ```bash
 pip install ollama flask
 ```
+
+You can download the ollama setup.exe from:
+[ollama](https://ollama.com/)
+
+## Run
+Clone my repositories, run:
+
+```bash
+python app.py
+```
+
+Then, it tips you to open the website. Open it, use full-screen mode, enjoy the chat!
